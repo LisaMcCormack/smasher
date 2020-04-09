@@ -1,4 +1,4 @@
-var chai = require('chai')
+const chai = require('chai')
   , chaiHttp = require('chai-http');
 
 chai.use(chaiHttp);
@@ -8,18 +8,15 @@ const expect = chai.expect;
 
 
 describe("Smasher", () => {
-  it('allows the bbc url to be added as a query string and the res will contain "bbc"', (done) => {
-    chai.request(server)
+  it('allows the bbc and guardian urls to be added as query strings and the res will contain "bbc" and "the guardian"', async () => {
+    await chai.request(server)
       .get('/smasher')
-      .query({urls: "https://news.bbc.co.uk"})
-      .end((err, res) => {
-        if (err) {
-          return done(err);
-        }
+      .query({urls: ["https://news.bbc.co.uk", "https://www.theguardian.com"]})
+      .then((res) => {
         expect(res).to.have.status(200)
+        expect(res.text).to.not.contain('nfaihsfo')
         expect(res.text).to.contain('bbc')
-        expect(res.text).to.not.contain('hfasoihtrahfiluhahrgkbiva')
-        done()
+        expect(res.text).to.contain('The Guardian')
       })
   })
 })

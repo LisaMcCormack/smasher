@@ -2,13 +2,19 @@ const express = require('express')
 const fetch = require('node-fetch')
 const app = express()
 
+
 app.get('/smasher', (req, res) => {
   const urls = req.query.urls
-  fetch(urls.toString())
+  fetch(urls[0].toString())
     .then(response => response.text())
     .then(data => {
       res.write(data)
-      res.end()
+      fetch(urls[1].toString())
+        .then(response => response.text())
+        .then(data => {
+          res.write(data)
+          res.end()
+        })
     })
 })
 
