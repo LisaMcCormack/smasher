@@ -4,7 +4,7 @@ var chai = require('chai')
 chai.use(chaiHttp);
 const server = require('./index')
 
-var expect = chai.expect;
+const expect = chai.expect;
 
 
 describe("Smasher", () => {
@@ -16,6 +16,7 @@ describe("Smasher", () => {
           return done(err);
         }
         expect(res).to.have.status(200)
+        expect(res.text).to.equal('hello world')
         done()
       })
   })
