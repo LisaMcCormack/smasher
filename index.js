@@ -1,5 +1,5 @@
-const express = require('express')
 const fetch = require('node-fetch')
+const express = require('express')
 const app = express()
 
 
@@ -8,14 +8,21 @@ app.get('/smasher', async (req, res) => {
   res.send(bodies)
 })
 
-async function smasher(urls) {
+async function smasher(url, func) {
+  func = call(url)
+ return await  func
+}
+
+async function call(url) {
   let result = ""
-  await Promise.all(urls.map(url => fetch(url.toString())))
-    .then(resp => Promise.all(resp.map(r => r.text()))
-      .then(r => {result = r.join()})
-      .catch(err => console.log(err)))
+  await fetch(url)
+    .then(response => response.text())
+    .then(data => {
+      result = data
+    })
   return result
 }
+
 
 const server = app.listen(3000, () => console.log("server started on port 3000"))
 
