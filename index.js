@@ -4,26 +4,30 @@ const app = express()
 
 
 app.get('/smasher', async (req, res) => {
-  const bodies = await smasher(req.query.urls)
+  const bodies = await smasher(req.query.urls, call)
   res.send(bodies)
 })
 
-async function smasher(url, func) {
-  func = call(url)
- return await  func
+async function smasher(urls, call) {
+  const result = []
+  for (let i = 0; i < urls.length; i++) {
+    const body = await call(urls[i])
+    result.push(body)
+  }
+  return result.join("")
 }
 
 async function call(url) {
-  let result = ""
-  await fetch(url)
-    .then(response => response.text())
-    .then(data => {
-      result = data
-    })
-  return result
+  try {
+    const response = await fetch(url)
+    return await response.text()
+  } catch(err) {
+    console.log(err)
+    return ""
+  }
 }
 
 
-const server = app.listen(3000, () => console.log("server started on port 3000"))
+app.listen(3000, () => console.log("server started on port 3000"))
 
-module.exports = server
+module.exports = smasher
