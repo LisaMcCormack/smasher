@@ -1,7 +1,8 @@
-const smasher = require("./index");
+const {smasher} = require("./smasher");
 
 
 describe("Smasher", () => {
+
   it('takes a url and returns a string', async () => {
     const stubCall = (url) => {
       if (url === "bob.com") {
