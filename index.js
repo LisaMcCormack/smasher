@@ -12,4 +12,4 @@ app.get('/smasher', async (req, res) => {
 
 app.listen(3000, () => console.log("server started on port 3000"))
 
-module.exports = smasher
+module.exports = app

@@ -16,5 +16,8 @@
     "express": "^4.17.1",
     "jest": "^25.3.0",
     "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "supertest": "^4.0.2"
   }
 }
